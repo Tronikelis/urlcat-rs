@@ -26,7 +26,7 @@ pub fn urlcat(base: &str, path: &str, params: HashMap<&str, String>) -> String {
         url_base.push_str(&path);
     }
 
-    let mut used_params = vec![];
+    let mut used_param_keys = vec![];
 
     // overriding :xxx params
     let with_dynamic_params = url_base
@@ -41,7 +41,7 @@ pub fn urlcat(base: &str, path: &str, params: HashMap<&str, String>) -> String {
                 .get(&without as &str)
                 .expect("missing param in the base url");
 
-            used_params.push(without);
+            used_param_keys.push(without);
 
             return encode(param).to_string();
         })
@@ -52,7 +52,7 @@ pub fn urlcat(base: &str, path: &str, params: HashMap<&str, String>) -> String {
 
     for (i, (key, value)) in params
         .iter()
-        .filter(|(_, x)| !used_params.contains(x))
+        .filter(|(key, _)| !used_param_keys.contains(&key.to_string()))
         .enumerate()
     {
         let mut parameter = String::new();
