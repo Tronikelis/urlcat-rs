@@ -20,7 +20,6 @@ pub fn urlcat(base: &str, path: &str, params: HashMap<&str, String>) -> String {
     {
         let mut path = path.to_string();
         while path.chars().next().unwrap_or('_') == '/' {
-            println!("{}", path);
             path = path.chars().skip(1).collect();
         }
         url_base.push_str(&path);
@@ -70,6 +69,10 @@ pub fn urlcat(base: &str, path: &str, params: HashMap<&str, String>) -> String {
         parameter.push_str(&encode(value));
 
         querystring.push_str(&parameter);
+    }
+
+    if querystring.is_empty() {
+        return with_dynamic_params;
     }
 
     return with_dynamic_params + "?" + &querystring;
