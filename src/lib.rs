@@ -28,7 +28,7 @@ pub fn urlcat(base: &str, path: &str, params: HashMap<&str, String>) -> String {
 
     // overriding :xxx params
     let with_dynamic_params = url_base
-        .split("/")
+        .split('/')
         .map(|x| {
             if x.chars().next().unwrap_or('_') != ':' {
                 return x.to_string();
@@ -41,7 +41,7 @@ pub fn urlcat(base: &str, path: &str, params: HashMap<&str, String>) -> String {
 
             used_params.push(without);
 
-            return encode(&param).to_string();
+            return encode(param).to_string();
         })
         .collect::<Vec<String>>()
         .join("/");
@@ -63,9 +63,9 @@ pub fn urlcat(base: &str, path: &str, params: HashMap<&str, String>) -> String {
         };
 
         parameter.push_str(&ampersand);
-        parameter.push_str(&key);
-        parameter.push_str("=");
-        parameter.push_str(&encode(&value).to_string());
+        parameter.push_str(key);
+        parameter.push('=');
+        parameter.push_str(&encode(value));
 
         querystring.push_str(&parameter);
     }
