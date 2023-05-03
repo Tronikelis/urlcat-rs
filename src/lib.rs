@@ -15,6 +15,8 @@ pub fn urlcat(base: &str, path: &str, params: HashMap<&str, String>) -> String {
         url_base.push_str(&base);
     }
 
+    url_base.push('/');
+
     {
         let mut path = path.to_string();
         while path.chars().next().unwrap_or('_') == '/' {
