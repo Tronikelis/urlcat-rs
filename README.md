@@ -6,6 +6,11 @@
 
 This package [urlbat](https://github.com/Tronikelis/urlbat) rewritten in rust
 
+## Features
+
+-   sorts the querystring
+-   correctly escapes values
+
 ## Simple example showing what it can do
 
 ```rust

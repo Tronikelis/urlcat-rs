@@ -3,27 +3,11 @@
 use std::collections::HashMap;
 use urlencoding::encode;
 
+mod utils;
+use utils::join_paths::join_paths;
+
 pub fn urlcat(base: &str, path: &str, params: HashMap<&str, String>) -> String {
-    // base + path
-    let mut url_base = String::new();
-
-    {
-        let mut base = base.to_string();
-        while base.chars().last().unwrap_or('_') == '/' {
-            base.pop();
-        }
-        url_base.push_str(&base);
-    }
-
-    url_base.push('/');
-
-    {
-        let mut path = path.to_string();
-        while path.chars().next().unwrap_or('_') == '/' {
-            path = path.chars().skip(1).collect();
-        }
-        url_base.push_str(&path);
-    }
+    let url_base = join_paths(base, path);
 
     let mut used_param_keys = vec![];
 
@@ -49,11 +33,19 @@ pub fn urlcat(base: &str, path: &str, params: HashMap<&str, String>) -> String {
 
     let mut querystring = String::new();
 
-    for (i, (key, value)) in params
+    let mut filtered_params: Vec<(String, String)> = params
         .iter()
         .filter(|(key, _)| !used_param_keys.contains(&key.to_string()))
-        .enumerate()
-    {
+        .map(|(k, v)| (k.to_string(), v.to_string()))
+        .collect();
+
+    filtered_params.sort_by(|a, b| {
+        let a = a.0.to_lowercase();
+        let b = b.0.to_lowercase();
+        return a.cmp(&b);
+    });
+
+    for (i, (key, value)) in filtered_params.iter().enumerate() {
         let mut parameter = String::new();
         let ampersand: String = {
             if i == 0 {
