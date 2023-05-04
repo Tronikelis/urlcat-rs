@@ -1,4 +1,4 @@
-fn last_char(string: &String) -> Option<char> {
+fn last_char(string: &str) -> Option<char> {
     return string.chars().last();
 }
 
