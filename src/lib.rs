@@ -11,6 +11,10 @@ pub fn urlcat(base: &str, path: &str, params: HashMap<&str, String>) -> String {
 
     let mut used_param_keys = vec![];
 
+    if params.is_empty() {
+        return url_base;
+    }
+
     // overriding :xxx params
     let with_dynamic_params = url_base
         .split('/')

@@ -110,3 +110,12 @@ fn concat_edge_cases() {
     let actual = urlcat("/nice/", "", HashMap::new());
     assert_eq!(expected, actual);
 }
+
+#[test]
+fn empty_params_colon() {
+    let url = "/:a/b/:c";
+
+    assert_eq!(url, urlcat(url, "", HashMap::new()));
+    assert_eq!(url.to_string() + url, urlcat(url, url, HashMap::new()));
+    assert_eq!(url.to_string() + "/", urlcat(url, "/", HashMap::new()));
+}
