@@ -16,5 +16,5 @@ jobs:
               with:
                   toolchain: stable
 
-            - name: Build Binary
+            - name: cargo test
               run: cargo test
